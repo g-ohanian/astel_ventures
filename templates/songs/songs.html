@@ -1,0 +1,36 @@
+{% extends "index.html" %}
+
+{% block content %}
+    <div class="search-page" id="search-page">
+        <h2>Search</h2>
+        <form action="{% url 'songs' %}" method="POST" id="search-form">
+            {% csrf_token %}
+            {{ song_search_form }}
+            <button type="submit" id="search-button">Search</button>
+        </form>
+    </div>
+    {% if existing_song %}
+        <div id="search-results">
+            <h3>Search Results</h3>
+            <p>Title: <span id="result-title">{{ existing_song.title }}</span></p>
+            <p>Artist: <span id="result-artist">{{ existing_song.artist }}</span></p>
+            <h4>Summary From Local</h4>
+            {% if existing_song.summary.local.error %}
+                <p class="error">Error: <span id="local-result-error">{{ existing_song.summary.local.error }}</span></p>
+            {% endif %}
+            {% if not existing_song.summary.local.error %}
+                <p>Summary: <span id="local-result-summary">{{ existing_song.summary.local.summary }}</span></p>
+                <p>Countries: <span id="local-result-countries">{{ existing_song.summary.local.countries }}</span></p>
+            {% endif %}
+            
+            <h4>Summary From Open Ai</h4>
+            {% if existing_song.summary.open_ai.error %}
+                <p class="error">Error: <span id="openai-result-error">{{ existing_song.summary.open_ai.error }}</span></p>
+            {% endif %}
+            {% if not existing_song.summary.open_ai.error %}
+                <p>Summary: <span id="openai-result-summary">{{ existing_song.summary.open_ai.summary }}</span></p>
+                <p>Countries: <span id="openai-result-countries">{{ existing_song.summary.open_ai.countries }}</span></p>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}

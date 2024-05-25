@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Summarize The Song</title>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+</head>
+<body>
+    <header>
+    <h1>Welcome to Summarize The Song</h1>
+        {% if user.is_authenticated  %}
+            <form action="{% url 'logout' %}" method="POST">
+                {% csrf_token %}
+                <button class="logout" type="submit">Logout</button>
+            </form>
+        {% endif %}
+  </header>
+    <div class="container">
+        {% block content %}
+        <!-- Content goes here -->
+        {% endblock content %}
+    </div>
+{#    <script src="{% static 'js/scripts.js' %}"></script>#}
+</body>
+</html>
